@@ -19,6 +19,7 @@ type Email struct {
 	Subject string   // Subject text to send
 	Text    string   // Text is the text body representation
 	HTML    string   // HTMLBody is the HTML body representation
+	ReplyTo []string // Reply-To email(s)
 }
 
 // SendEmail message.
@@ -49,9 +50,10 @@ func (s *SES) SendEmail(email Email) error {
 	}
 
 	_, err := s.Service.SendEmail(&ses.SendEmailInput{
-		Source:      &email.From,
-		Destination: dest,
-		Message:     msg,
+		Source:           &email.From,
+		Destination:      dest,
+		Message:          msg,
+		ReplyToAddresses: aws.StringSlice(email.ReplyTo),
 	})
 
 	return err
