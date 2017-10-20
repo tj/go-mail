@@ -17,7 +17,7 @@ type Client struct {
 }
 
 // New client.
-func New(ses *sesiface.SESAPI) *Client {
+func New(ses sesiface.SESAPI) *Client {
 	return &Client{
 		ses: ses,
 	}
