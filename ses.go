@@ -3,13 +3,24 @@ package ses
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ses"
 	"github.com/aws/aws-sdk-go/service/ses/sesiface"
 )
 
-// SES alert support.
-type SES struct {
-	Service sesiface.SESAPI // Service implementation
+// client is the default client.
+var client = New(ses.New(session.New(aws.NewConfig())))
+
+// Client for SES.
+type Client struct {
+	ses sesiface.SESAPI // Service implementation
+}
+
+// New client.
+func New(ses *sesiface.SESAPI) *Client {
+	return &Client{
+		ses: ses,
+	}
 }
 
 // Email options.
@@ -23,7 +34,7 @@ type Email struct {
 }
 
 // SendEmail message.
-func (s *SES) SendEmail(email Email) error {
+func (c *Client) SendEmail(email Email) error {
 	if email.HTML == "" {
 		email.HTML = email.Text
 	}
@@ -49,7 +60,7 @@ func (s *SES) SendEmail(email Email) error {
 		ToAddresses: aws.StringSlice(email.To),
 	}
 
-	_, err := s.Service.SendEmail(&ses.SendEmailInput{
+	_, err := c.ses.SendEmail(&ses.SendEmailInput{
 		Source:           &email.From,
 		Destination:      dest,
 		Message:          msg,
@@ -57,4 +68,9 @@ func (s *SES) SendEmail(email Email) error {
 	})
 
 	return err
+}
+
+// SendEmail message.
+func SendEmail(email Email) error {
+	return client.SendEmail(email)
 }
