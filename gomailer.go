@@ -1,5 +1,5 @@
-// Package ses provides a small wrapper around AWS SES.
-package ses
+// Package gomailer provides a small wrapper around AWS SES.
+package gomailer
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
