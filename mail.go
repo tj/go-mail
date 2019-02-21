@@ -44,8 +44,8 @@ func New(s sesiface.SESAPI) *Client {
 	}
 }
 
-// SendEmail message.
-func (c *Client) SendEmail(e Email) error {
+// Send an email.
+func (c *Client) Send(e Email) error {
 	if e.HTML == "" {
 		e.HTML = e.Text
 	}
@@ -81,7 +81,7 @@ func (c *Client) SendEmail(e Email) error {
 	return err
 }
 
-// SendEmail message.
-func SendEmail(e Email) error {
-	return client.SendEmail(e)
+// Send an email.
+func Send(e Email) error {
+	return client.Send(e)
 }
