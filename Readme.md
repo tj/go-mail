@@ -1,6 +1,6 @@
-# go-ses
+# gomailer
 
-Package ses provides a small wrapper around AWS SES.
+Package gomailer provides a small wrapper around AWS SES.
 
 ## Badges
 
